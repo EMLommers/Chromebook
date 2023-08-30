@@ -1,4 +1,3 @@
-
 # Chromebook<br>
 Chromebook hacks<br>
 
