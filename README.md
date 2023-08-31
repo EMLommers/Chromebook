@@ -4,7 +4,7 @@ Chromebook hacks<br>
 Remove / Replace Bitmaps ChromeOS<br>
 Chromebook ELM / OAK / HANA / ELM<br>
 
-# Howto:<br>
+<b size=15># Howto:</b><br>
 flashrom -p host -r firmware.rom<br>
 cbfstool firmware.rom extract -n vbgfx.bin -f vbgfx.bin -m arm64<br>
 # (extract vbgfx.bin from firmware file)<br>
