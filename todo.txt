@@ -1,0 +1,5 @@
+to do:<br>
+<br>
+The Background.bmp is not used in dev mode.<br>
+It is replaced by just a programmed white screen. <br>
+Find a workaround..<br>
