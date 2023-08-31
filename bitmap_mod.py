@@ -8,10 +8,10 @@
 # this file in same directory
 # python3 ./bitmap_mod.py
 # cbfstool firmware.rom remove -n vbgfx.bin
-# cbfstool firmware.rom add -n vbgfx.bin -f vbgfx.bin -m arm64
+# cbfstool firmware.rom add -n vbgfx.bin -f vbgfx.bin -c lzma -t raw
 # flashrom -p host -w firmware.rom
 
-# V0.20
+# V0.25
 # Should work on locale_xx.bin and font.bin as well (not yet tested)
 
 
@@ -22,12 +22,12 @@ import struct
  
 # Function to update the
 # content of binary file
-def update_binary(word, new):
+def update_chromeos_bitmaps():
     # string variable to store
     # each word after reading
     # from the file
     string = b""
- 
+    word = "BM"
     # Flag variable to check
     # if the record is found or
     # not
@@ -39,7 +39,7 @@ def update_binary(word, new):
     # Open the file in r + b mode which means
     # opening a binary file for reading and
     # writing
-    file = open('vbgfx.bin', 'rb+')
+    file = open('locale_en.bin', 'rb+')
  
     while 1:   
  
@@ -68,10 +68,10 @@ def update_binary(word, new):
 	         # at the end of the previously
 	         # read recor
                  print("Found..")
-                 file.seek(pos+54)
+                 file.seek(pos+52)
 
                  # Updating the content of the file
-                 for x in range(128*2):
+                 for x in range(128*4):
                         file.write(b"\0")
 	            
                  Flag = 1
@@ -100,9 +100,5 @@ def update_binary(word, new):
         print("Record not found")
          
          
-# Driver code
-# Input the word to be found
-# and the new word
-word = "BM"
- 
-update_binary(word, new)
+
+update_chromeos_bitmaps()
