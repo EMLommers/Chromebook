@@ -1,10 +1,9 @@
 #! /bin/bash
  
- cp *0.bin 235.bin
+ cp backup.bin 235.bin # backup.bin is your backup of your firmware
  cbfstool 235.bin extract -n vbgfx.bin -f vbgfx.bin -m arm64
  cbfstool 235.bin extract -n font.bin -f font.bin -m arm64
-  cbfstool 235.bin extract -n locale_en.bin -f  locale.bin -m arm64
-# this file in same directory
+ cbfstool 235.bin extract -n locale_en.bin -f  locale.bin -m arm64
 python3 ./bitmap_mod.py
 cbfstool 235.bin remove -n vbgfx.bin
 cbfstool 235.bin remove -n font.bin
