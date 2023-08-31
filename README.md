@@ -3,7 +3,10 @@ Chromebook hacks<br>
 
 Remove / Replace Bitmaps ChromeOS<br>
 Chromebook ELM / OAK / HANA / ELM<br>
-
+<br>
+<b size=15># Backup your current firmware first:</b><br>
+flashrom -p host -w backup.bin<br>
+<br>
 <b size=15># Howto:</b><br>
  cp backup.bin 235.bin # backup.bin is your backup of your firmware<br>
  cbfstool 235.bin extract -n vbgfx.bin -f vbgfx.bin -m arm64<br>
