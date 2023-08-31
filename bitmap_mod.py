@@ -22,7 +22,7 @@ import struct
  
 # Function to update the
 # content of binary file
-def update_chromeos_bitmaps():
+def update_chromeos_bitmaps(binfile):
     # string variable to store
     # each word after reading
     # from the file
@@ -39,7 +39,7 @@ def update_chromeos_bitmaps():
     # Open the file in r + b mode which means
     # opening a binary file for reading and
     # writing
-    file = open('locale_en.bin', 'rb+')
+    file = open(binfile, 'rb+')
  
     while 1:   
  
@@ -101,4 +101,6 @@ def update_chromeos_bitmaps():
          
          
 
-update_chromeos_bitmaps()
+update_chromeos_bitmaps("vbgfx.bin")
+update_chromeos_bitmaps("font.bin")
+update_chromeos_bitmaps("locale_en.bin")
