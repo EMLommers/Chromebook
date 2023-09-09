@@ -11,8 +11,8 @@
 # python3 ./read_bin_file.py vbgfx.bin
 
 
-# v0.1
-# todo: extract, export, replace, alias, import
+# v0.2
+# todo: extract, export, replace, alias, import, build
 
 
 import struct
