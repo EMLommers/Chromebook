@@ -12,7 +12,7 @@
 
 
 # v0.1
-# todo: extract, replace, alias, import
+# todo: extract, export, replace, alias, import
 
 
 import struct
@@ -24,7 +24,20 @@ import sys
  
 # Function to update the
 # content of binary file
-def update_binary(file_path):
+def update_binary(command_array):
+    #print (command_array)
+    command = "plutonium"
+    dirfile = ""
+    debug = ""
+    argnum = command_array.split(',')
+    argnum_cnt = len(argnum)-1
+    argvalues = 'file_path, command, dirfile, debug'
+    #print (argvalues)
+    argstr = argvalues.split(',')
+    for putvar in range(argnum_cnt):
+        argstr[putvar] = argstr[putvar].replace("'","").replace(" ","")
+        globals()[argstr[putvar]] = str(argnum[putvar+1].replace("'","").replace(" ","").replace("[","").replace("]",""))
+    #   print(argstr[putvar])
     # string variable to store
     # each word after reading
     # from the file
@@ -43,7 +56,7 @@ def update_binary(file_path):
     # Replace 'your_file_path' with the actual file path
     #file_path = 'your_file_path'
 
-    print ("Read file:",file_path)
+    print ("File   :",file_path)
     try:
         file_path_size = os.path.getsize(file_path)
     #    print(f"File Size in Bytes is {file_size}")
@@ -67,7 +80,8 @@ def update_binary(file_path):
         if not value:
            exit
         cur_pos = file.tell()
-        data = byte_value = struct.unpack('B', value)[0]
+        byte_value = struct.unpack('B', value)[0]
+        data = byte_value
         #print(f"Byte: {byte_value}")
     
         # checking file magic
@@ -80,57 +94,88 @@ def update_binary(file_path):
               print (magic)
               exit
            else:    
-               print ("MAGIC : ",magic)
+                cbar_file_version =  int.from_bytes(file.read(4), byteorder='little')      
+                cbar_file_size =  int.from_bytes(file.read(4), byteorder='little') 
+                cbar_file_count  = int.from_bytes(file.read(4), byteorder='little') 
+               
+                if dirfile == "debug" or debug == "debug":
+                   print ("MAGIC : ",magic)
            
-               print ("OFFSET: ",file.tell())
-               cbar_file_version =  int.from_bytes(file.read(4), byteorder='little')      
-               cbar_file_size =  int.from_bytes(file.read(4), byteorder='little') 
-               cbar_file_count  = int.from_bytes(file.read(4), byteorder='little')  
-               print ("VERSION: ",cbar_file_version)
-               print ("SIZE   : ",cbar_file_size) 
-               print ("COUNT  : ",cbar_file_count)
-               if cbar_file_count > 0:  
-                   for count in range(cbar_file_count):
-                       
-            
-                       name = ""
-                       for name_length in range(32):
-                           value =  (struct.unpack('B', file.read(1))[0])
-                           if value == 0:
-                              name  += chr(32) 
-                              continue
-                           else:
-                              name += chr(value)      
-                              continue
-                       file_name.append(name) # = name
-                       file_offset.append(struct.unpack('i',file.read(4)))
-                       file_size.append(struct.unpack('i',file.read(4)))
-                      # print ("COUNTNR: ",count)
-                       if count == 0:
-                          print ("Archive contents:")
-      
-                       print_len = str(str(count) +"   "+ (file_name[count] + "  Offset: " + str(file_offset[count]) + "   Size: " + str(file_size[count])))
-                       print_len = print_len.replace("(","")
-                       print_len = print_len.replace(")","")
-                       print_len = print_len.replace(",","") 
-                       print (print_len)
-                       continue
-                       if count < 1 or cbar_file_count == 0:
-                          print ("Empty archive")
-                          exit
-                       continue
-                   break
+                   print ("OFFSET: ",file.tell())
+                  
+                   print ("VERSION: ",cbar_file_version)
+                   print ("SIZE   : ",cbar_file_size) 
+                   print ("COUNT  : ",cbar_file_count)
+               
+           match command:
+                  case "list":
+                         print ("Action : Show content")
+                         print ("")
+                         if cbar_file_count > 0:  
+                             for count in range(cbar_file_count):
+                                name = ""
+                                for name_length in range(32):
+                                    value =  (struct.unpack('B', file.read(1))[0])
+                                    if value == 0:
+                                       name  += chr(32) 
+                                       continue
+                                    else:
+                                       name += chr(value)      
+                                       continue
+                                file_name.append(name) # = name
+                                file_offset.append(struct.unpack('i',file.read(4)))
+                                file_size.append(struct.unpack('i',file.read(4)))
+                                # print ("COUNTNR: ",count)
+                                if count == 0:
+                                   print ("Archive contents:")
+                                   print ("-----------------------")
+                                print_len = str(str(count+1) +"   "+ (file_name[count] + "  Offset: " + str(file_offset[count]) + "   Size: " + str(file_size[count])))
+                                print_len = print_len.replace("(","")
+                                print_len = print_len.replace(")","")
+                                print_len = print_len.replace(",","") 
+                                print (print_len)
+                                
+                         if count < 1 or cbar_file_count == 0:
+                            print ("Empty archive")
+                         break   
+                             
+                             
+                  case "export":
+                     exit
+                  case "extract":
+                     exit
+                  case "import":
+                     exit
+                  case "alias":
+                     exit
+                  case "build":
+                     exit
+                  case "replace":
+                     exit                  
+                  case _:
+                     print ("Not a valid choice.")
+                     print ("read_bin_file.py chromeos-bin-file action [filedir] [filedir2]")
+                     print ()
+                     print ("action = list | export | extract | import | alias | build | replace")
+                     print ("filedir1 && filedir2 not needed when using 'list'")
+                     print ("Still in development... only list working")
+                     break
+                        
+                     
     # Looping till the end of
     # file is reached
     
 
     file.close()
-
+    exit
 
          
 # Driver code
 # Input the word to be found
 # and the new word
-names = sys.argv
+print ("Edit content of ChromeOS firmware bitmaps")
+print ("v0.2 2023 by Ernst M. Lommers")
+print() 
+names = str(sys.argv)
 
-update_binary(str(names[1]))
+update_binary(names)
