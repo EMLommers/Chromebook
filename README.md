@@ -26,3 +26,6 @@ exit<br>
 Will not remove background yet, but images it does...<br>
 ChromeOS is not using Background.bmp in dev mode, it is just a programmed background, not an image.<br>
 Try to find workaround. <br>
+<br>
+read_bin_file.py is editing tool for ChromeOS/ChromiumOS graphics in firmware (in dev)<br>
+List .bin archive (vbgfx.bin,locale_xx.bin,font.bin), edit, replace, alias files, background, import, export, build<br>
